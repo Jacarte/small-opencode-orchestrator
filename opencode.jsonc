@@ -28,15 +28,16 @@
     "edit": "deny",
   },
 
+  // Strong models for the primary agents
   "agent": {
     "build": {
-      "model": "opencode-go/kimi-k2.6",
+      "model": "deepseek-v4-pro",
       "reasoningEffort": "xhigh",
       "textVerbosity": "medium",
     },
 
     "plan": {
-      "model": "opencode-go/kimi-k2.6",
+      "model": "deepseek-v4-pro",
       "reasoningEffort": "xhigh",
       "textVerbosity": "medium",
     },
@@ -44,19 +45,20 @@
     "orchestrator": {
       // plan-post-approval plugin reads this path only (not merged from agent frontmatter).
       "plan_post_approval_handoff_agent": "orchestrator",
-      "model": "opencode-go/kimi-k2.6",
+      "model": "deepseek-v4-pro",
       "reasoningEffort": "xhigh",
       "textVerbosity": "medium",
       "temperature": 0.2,
     },
 
     "plan-runner": {
-      "model": "opencode-go/kimi-k2.6",
+      "model": "deepseek-v4-pro",
       "reasoningEffort": "xhigh",
       "textVerbosity": "medium",
       "temperature": 0.2,
     },
 
+    // Cheap model for subagents (defined in agents/<id>.md)
     "code-explorer": {
       "reasoningEffort": "high",
       "textVerbosity": "medium",

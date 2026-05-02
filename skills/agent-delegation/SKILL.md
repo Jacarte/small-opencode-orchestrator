@@ -11,7 +11,7 @@ Must respect `permission.task` in the active primary agent's frontmatter (`agent
 - Use `code-explorer` for reading and exploring codebase files, architecture mapping, and symbol location. This is the dedicated read-only exploration agent.
 - Use `explore` for fast read-only codebase discovery when `code-explorer` is unnecessary (built-in platform agent).
 - Use `code-executor` for implementing and writing code. This agent writes only — delegate exploration to `code-explorer` first when needed.
-- Use `general` for heavier multi-step research or exploration when `explore` is too narrow (still via Task when permitted).
+- Use `general` for heavier multi-step research or exploration when `explore` is too narrow — **Task** only if `permission.task` allows it (**`build`** commonly does). The **`orchestrator`** agent does **not** list `general`; use **`code-explorer`** or **`explore`** instead.
 - Use `spec-critic` before implementation when the task is ambiguous, architectural, or spans multiple modules.
 - Use `api-docs-researcher` before coding against third-party APIs, SDKs, migrations, or recent framework behavior.
 - Use `test-verifier` after implementation.
