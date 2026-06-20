@@ -225,6 +225,11 @@ Key settings in `opencode.jsonc`:
 
 ## Changelog
 
+### [1.1.1] — 2026-05-12
+
+- **Fixed**
+  - Removed textVerbosity parameter from `opencode.jsonc` so GLM and other models work properly
+
 ### [1.1.0] — 2026-05-12
 
 - **Changed**

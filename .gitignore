@@ -5,6 +5,7 @@ node_modules/
 dist/
 build/
 *.tsbuildinfo
+__pycache__*
 
 # Environment and secrets
 .env
@@ -37,6 +38,9 @@ Thumbs.db
 # Other Skills
 /skills/context7/
 /skills/gitnexus*
+/skills/agent-memory
+agent-memory.skill
 
 # Personal
 tui.json
+/command

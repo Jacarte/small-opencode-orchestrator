@@ -6,6 +6,7 @@ temperature: 0.2
 permission:
   question: allow
   todowrite: allow
+  write: allow
   edit:
     "*": allow
     ".opencode/plans/**": allow
