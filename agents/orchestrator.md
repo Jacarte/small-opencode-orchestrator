@@ -71,9 +71,9 @@ Understand the user request and think about the best way to accomplish it by rou
 
 ## Phase B — After Approve (`plan`-primary handoff automation)
 
-When the **routing agent** was **`plan`** and the user approves in `question`: the **plan-post-approval** plugin runs after session idle (`session.summarize` + `session.prompt`) and hands off to **`build`**, regardless of what `plan_post_approval_handoff_agent` is configured for **`orchestrator`** in workspace `opencode.jsonc`.
+When the **routing agent** was **`plan`** and the user approves in `question`: the **plan-post-approval** plugin runs after session idle (`session.summarize` + `session.prompt`) and hands off to **`build`**, regardless of the `plan_post_approval_handoff_agent` option.
 
-When the **routing agent** was **`orchestrator`** and `agent.orchestrator.plan_post_approval_handoff_agent` in workspace `opencode.jsonc` is **`orchestrator`**, the **plugin skips** queueing that automated `session.prompt` so **you** continue Phase B immediately without a duplicate compaction/handoff burst.
+When the **routing agent** was **`orchestrator`** and the plugin option `plan_post_approval_handoff_agent` (passed via the `plugin` tuple for `./plugin-src/plan-post-approval.ts` in `opencode.jsonc`) is **`orchestrator`**, the **plugin skips** queueing that automated `session.prompt` so **you** continue Phase B immediately without a duplicate compaction/handoff burst.
 
 When **routing agent** was **`orchestrator`** and `plan_post_approval_handoff_agent` resolves to **`not`** **`orchestrator`** (commonly **`build`**), after session idle the plugin runs `session.summarize` and `session.prompt` for that **configured agent**; it then drives implementation from the automated handoff. **Skip the numbered Phase B steps below** on that path — they apply only while **you remain** primary with **orchestrator** + **orchestrator** handoff (plugin skip).
 

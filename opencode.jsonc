@@ -1,7 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": ["@mohak34/opencode-notifier@latest"],
-  // Local plugins in ~/.config/opencode/plugins/ load automatically (e.g. plan-post-approval.ts).
+  "plugin": [
+    "@mohak34/opencode-notifier@latest",
+    // plan-post-approval is loaded explicitly with its options here (not auto-discovered),
+    // so the handoff knob never reaches a provider request body (fixes GLM/Vertex/Fireworks
+    // "Extra inputs are not permitted" errors).
+    ["./plugin-src/plan-post-approval.ts", { "plan_post_approval_handoff_agent": "orchestrator" }],
+  ],
 
   "provider": {
     "opencode": {},
@@ -40,8 +45,6 @@
     },
 
     "orchestrator": {
-      // plan-post-approval plugin reads this path only (not merged from agent frontmatter).
-      "plan_post_approval_handoff_agent": "orchestrator",
       "model": "opencode-go/deepseek-v4-pro",
       "temperature": 0.2,
     },

@@ -83,6 +83,19 @@ function resolvePlanPostApprovalHandoffAgent(configData: unknown): string {
   return DEFAULT_PLAN_HANDOFF_AGENT;
 }
 
+function resolveHandoffFromOptions(options: unknown): string | null {
+  if (!options || typeof options !== "object" || Array.isArray(options)) {
+    return null;
+  }
+  const v = (options as Record<string, unknown>)
+    .plan_post_approval_handoff_agent;
+  if (typeof v === "string") {
+    const t = v.trim();
+    if (t) return t;
+  }
+  return null;
+}
+
 /** Last chronological `agent` field on user messages — typically the routing primary for that turn. */
 async function lastUserRoutingAgent(
   client: PluginInput["client"],
@@ -310,7 +323,7 @@ async function promptWithRetry(
   return false;
 }
 
-const PlanPostApprovalPlugin: Plugin = async ({ client, directory }) => {
+const PlanPostApprovalPlugin: Plugin = async ({ client, directory }, options) => {
   return {
     event: async ({ event: raw }) => {
       const event = raw as unknown as QuestionEvent;
@@ -354,9 +367,11 @@ const PlanPostApprovalPlugin: Plugin = async ({ client, directory }) => {
           }
           return;
         }
+        const optHandoff = resolveHandoffFromOptions(options);
         const cfgOnApprove = await client.config.get({ query: { directory } });
         const cfgData = cfgOnApprove.data;
-        const globalHandoff = resolvePlanPostApprovalHandoffAgent(cfgData);
+        const globalHandoff =
+          optHandoff ?? resolvePlanPostApprovalHandoffAgent(cfgData);
         let routingAgent = await lastUserRoutingAgent(
           client,
           sessionID,

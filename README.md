@@ -71,7 +71,7 @@ This keeps the main agent focused on coordination instead of forcing one large p
 │   ├── 📝 spec-critic.md
 │   └── 📝 test-verifier.md
 ├── 📁 command                                     # Optional OpenCode command hooks (may be empty)  
-├── 📁 plugins
+├── 📁 plugin-src
 │   └── 📄 plan-post-approval.ts
 ├── 📁 skills
 │   ├── 📁 agent-delegation
@@ -120,7 +120,7 @@ This keeps the main agent focused on coordination instead of forcing one large p
 
 ## Agents
 
-### Primary agents (Strong models) - Currently Using Kimi K2.6/DeepSeek V4 Pro/GLM 5.1
+### Primary agents (Strong models) - Currently Using DeepSeek V4 Pro/GLM 5.2
 
 - **orchestrator** - Coordinates multi-phase work through plan files, approval gates, and implementation slices
 - **build** - OpenCode Default Agent (Best for simple tasks)
@@ -154,15 +154,15 @@ It may be unnecessary for very small edits where a direct `build` agent is faste
 
 ### Plan post-approval handoff
 
-`plugins/plan-post-approval.ts` automates the handoff after a plan is approved through `PlanApprove`.
+`plugin-src/plan-post-approval.ts` (loaded via the `plugin` tuple in `opencode.jsonc`) automates the handoff after a plan is approved through `PlanApprove`.
 
 It:
 
 - Extracts plan file paths from approval questions
 - Uses the last user message `agent` field as routing context
 - Hands off `plan` sessions to `build` after idle using `session.summarize` and `session.prompt`
-- Avoids duplicate Phase B automation for `orchestrator` sessions when `agent.orchestrator.plan_post_approval_handoff_agent` is set to `orchestrator`
-- Falls back to `plan_post_approval_handoff_agent` from `opencode.jsonc`, under `agent.orchestrator` or root configuration
+- Avoids duplicate Phase B automation for `orchestrator` sessions when its plugin option `plan_post_approval_handoff_agent` is set to `orchestrator` (passed via the `plugin` tuple in `opencode.jsonc`, not under `agent.orchestrator`, so it never reaches a provider request body)
+- Reads `plan_post_approval_handoff_agent` from plugin options first, then falls back to `agent.orchestrator` or root in `opencode.jsonc` (provider-leaky; prefer plugin options)
 - Retries `session.prompt` with backoff
 
 ## Skills
@@ -220,10 +220,17 @@ Key settings in `opencode.jsonc`:
 - **`permission`** - Provides a minimal deny-by-default workspace baseline; each agent declares its tool policy in `agents/<id>.md` frontmatter
 - **`agent.*.model`** - Configures model selection for primary agents and selected subagents
 - **`reasoningEffort`**, **`textVerbosity`**, and **`temperature`** - Tune agent behavior where needed
-- **`agent.orchestrator.plan_post_approval_handoff_agent`** - Controls post-approval routing for the plan handoff plugin
+- **`plugin` tuple option `plan_post_approval_handoff_agent`** (for `./plugin-src/plan-post-approval.ts`) - Controls post-approval routing for the plan handoff plugin. Kept out of `agent.orchestrator` so strict providers (GLM, Vertex, Fireworks) don't reject it as an extra request field.
 
 
 ## Changelog
+
+### [1.1.3] - 2026-06-21
+
+- **Fixed**
+  - Moved `plan_post_approval_handoff_agent` out of `agent.orchestrator` (where opencode routed it into the provider request `options`) and into the `plan-post-approval` plugin tuple options. Restores compatibility with strict providers (GLM, Vertex AI, Fireworks) that rejected the extra field with "Extra inputs are not permitted". Same class of fix as the `textVerbosity` removal in [1.1.1].
+- **Changed**
+  - Relocated `plugins/plan-post-approval.ts` to `plugin-src/plan-post-approval.ts` so it is loaded only via the explicit `plugin` tuple (with options) instead of auto-discovery, avoiding double-load.
 
 ### [1.1.2] - 2026-06-21
 
