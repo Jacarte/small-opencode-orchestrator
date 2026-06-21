@@ -2,7 +2,6 @@
 description: Subagent that drafts evidence-based implementation plans under .opencode/plans/ and returns structured output to the orchestrator parent; does not emit PlanApprove gates.
 mode: subagent
 hidden: true
-temperature: 0.2
 permission:
   question: allow
   todowrite: allow

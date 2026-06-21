@@ -1,7 +1,6 @@
 ---
 description: Coordinates phased work via Task — plan-runner for plan files, code-executor for implementation slices, reviewers at the end — without implementing code directly.
 mode: primary
-temperature: 0.2
 permission:
   question: allow
   todowrite: allow

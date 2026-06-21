@@ -8,9 +8,10 @@
     "deepseek": {
       "models": {
         "deepseek-v4-pro": {
-          "interleaved": {
-            "field": "reasoning_content",
-          },
+          "reasoningEffort": "max",
+        },
+        "deepseek-v4-flash": {
+          "reasoningEffort": "max",
         },
       },
     },
@@ -32,65 +33,69 @@
   "agent": {
     "build": {
       "model": "opencode-go/deepseek-v4-pro",
-      "reasoningEffort": "max",
     },
 
     "plan": {
       "model": "opencode-go/deepseek-v4-pro",
-      "reasoningEffort": "max",
     },
 
     "orchestrator": {
       // plan-post-approval plugin reads this path only (not merged from agent frontmatter).
       "plan_post_approval_handoff_agent": "orchestrator",
       "model": "opencode-go/deepseek-v4-pro",
-      "reasoningEffort": "max",
       "temperature": 0.2,
     },
 
     "plan-runner": {
       // stick with pro here aswell if you accept the speed vs quality tradeoff
       "model": "opencode-go/deepseek-v4-flash",
-      "reasoningEffort": "max",
       "temperature": 0.2,
     },
 
     // Cheap model for subagents (defined in agents/<id>.md)
     "code-explorer": {
-      "reasoningEffort": "max",
+      "model": "opencode-go/deepseek-v4-flash",
       "temperature": 0.2,
     },
 
     "code-executor": {
-      "reasoningEffort": "max",
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
     },
 
     "test-verifier": {
-      "reasoningEffort": "max",
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
     },
 
     "spec-critic": {
-      "reasoningEffort": "max",
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.4,
     },
 
     "security-reviewer": {
-      "reasoningEffort": "max",
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
     },
 
     "docs-reviewer": {
-      "reasoningEffort": "max",
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
     },
 
     "code-reviewer": {
-      "reasoningEffort": "max",
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
     },
 
     "api-docs-researcher": {
-      "reasoningEffort": "max",
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
     },
 
     "host-security-investigator": {
-      "reasoningEffort": "max",
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
     },
   },
 }

@@ -225,7 +225,12 @@ Key settings in `opencode.jsonc`:
 
 ## Changelog
 
-### [1.1.1] — 2026-05-12
+### [1.1.2] - 2026-06-21
+
+- **Changed**
+  - Updated md files and `opencode.jsonc` so model and temperature are configurable inside the jsonc file.
+
+### [1.1.1] — 2026-06-20
 
 - **Fixed**
   - Removed textVerbosity parameter from `opencode.jsonc` so GLM and other models work properly
