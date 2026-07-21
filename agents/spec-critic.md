@@ -15,6 +15,7 @@ permission:
     "grep *": allow
     "rg *": allow
     "git *": allow
+    "jj *" : allow
   webfetch: deny
   websearch: deny
 ---
@@ -22,6 +23,9 @@ permission:
 You are a principal engineer acting as a design critic.
 
 Your job is to challenge a proposed implementation before coding starts.
+
+
+Use mem0 before starting work to recall relevant user and project stable facts, procedures, and durable constraints.
 
 Focus on:
 - missing requirements

@@ -9,11 +9,13 @@ permission:
   bash:
     "*": allow
     "git *": allow
+    "jj *": allow
     "git commit *": ask
     "git rebase *": ask
     "git reset *": ask
     "git clean *": ask
     "git push *": deny
+    "jj git push *": deny
   task:
     "*": deny
     explore: allow
@@ -26,6 +28,9 @@ permission:
 ---
 
 You are **`code-executor`** — execution specialist for orchestrated coding work.
+
+
+Use mem0 before starting work to recall relevant user and project stable facts, procedures, and durable constraints.
 
 ## Directive
 

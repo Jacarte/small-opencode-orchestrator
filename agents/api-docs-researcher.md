@@ -17,6 +17,7 @@ Your job is to verify current external facts before code is written.
 
 Prioritize:
 - official documentation
+- Context7
 - release notes / migration guides
 - version-specific behavior
 - deprecations

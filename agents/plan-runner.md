@@ -34,7 +34,7 @@ Never implement production code; never mutate files outside `.opencode/plans/`.
 
 ## Workflow
 
-1. **Clarify** within the delegated scope provided by the orchestrator prompt (assume critical facts were passed in; minimal additional questions-only if blocking).
+1. **Clarify** within the delegated scope provided by the orchestrator prompt (assume critical facts were passed in; minimal additional questions-only if blocking). Add explicit user messages in the context for the Task subagents. For example, using the following template `explicit user messages: it is ok to not use library X`.
 2. **Investigate** read-only exploration:
    - Prefer **Task** → **`explore`** for repo discovery
    - **Task** → **`spec-critic`** when cross-cutting ambiguity exists

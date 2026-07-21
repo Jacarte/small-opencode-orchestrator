@@ -20,6 +20,7 @@ permission:
     "grep *": allow
     "rg *": allow
     "git *": allow
+    "jj *": allow
 
     "rm *": ask
     "mv *": ask
@@ -74,6 +75,9 @@ permission:
 ---
 
 You are a verification agent.
+
+
+Use mem0 before starting work to recall relevant user and project stable facts, procedures, and durable constraints.
 
 Your job is to validate changes, not to implement them.
 
