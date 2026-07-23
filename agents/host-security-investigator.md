@@ -24,25 +24,7 @@ permission:
     "tail *": allow
     "grep *": allow
     "git *": deny
-    "git status": allow
-    "git status *": allow
-    "git diff": allow
-    "git diff *": allow
-    "git log": allow
-    "git log *": allow
-    "git show": allow
-    "git show *": allow
-    "git rev-parse --show-toplevel": allow
     "jj *": deny
-    "jj --ignore-working-copy --no-pager status": allow
-    "jj --ignore-working-copy --no-pager status *": allow
-    "jj --ignore-working-copy --no-pager diff": allow
-    "jj --ignore-working-copy --no-pager diff *": allow
-    "jj --ignore-working-copy --no-pager log": allow
-    "jj --ignore-working-copy --no-pager log *": allow
-    "jj --ignore-working-copy --no-pager show": allow
-    "jj --ignore-working-copy --no-pager show *": allow
-    "jj --ignore-working-copy --no-pager root": allow
 
     "uname *": allow
     "hostname *": allow
@@ -116,6 +98,16 @@ permission:
     "*<*": deny
     "*$(*": deny
     "*`*": deny
+    "git status": allow
+    "git diff": allow
+    "git log": allow
+    "git show": allow
+    "git rev-parse --show-toplevel": allow
+    "jj --ignore-working-copy --no-pager status": allow
+    "jj --ignore-working-copy --no-pager diff": allow
+    "jj --ignore-working-copy --no-pager log": allow
+    "jj --ignore-working-copy --no-pager show": allow
+    "jj --ignore-working-copy --no-pager root": allow
 ---
 
 You are a hosting and infrastructure security investigator.
