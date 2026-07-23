@@ -309,5 +309,3 @@ If assumptions are required, state them explicitly.
 If the source code contradicts Graphify, treat the source code as authoritative and report that the graph may be stale.
 
 If Graphify output is useful, do not repeat broad discovery already answered by it. Use direct reads only for focused verification.
-
-
