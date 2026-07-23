@@ -62,6 +62,17 @@ permission:
 
     "go test": allow
     "go test *": allow
+
+    "tsc *": allow
+    "npm run typecheck *": allow
+    "npm run type-check *": allow
+    "pnpm typecheck *": allow
+    "pnpm type-check *": allow
+    "yarn typecheck *": allow
+    "yarn type-check *": allow
+    "bun run typecheck *": allow
+    "bun run type-check *": allow
+
     "*&&*": deny
     "*||*": deny
     "*;*": deny
