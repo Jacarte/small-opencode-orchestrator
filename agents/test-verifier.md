@@ -19,8 +19,31 @@ permission:
     "awk *": allow
     "grep *": allow
     "rg *": allow
-    "git *": allow
-    "jj *": allow
+    "git *": deny
+    "git status": allow
+    "git status *": allow
+    "git diff": allow
+    "git diff *": allow
+    "git log": allow
+    "git log *": allow
+    "git show": allow
+    "git show *": allow
+    "git rev-parse --show-toplevel": allow
+    "jj *": deny
+    "jj status": allow
+    "jj status *": allow
+    "jj st": allow
+    "jj st *": allow
+    "jj diff": allow
+    "jj diff *": allow
+    "jj log": allow
+    "jj log *": allow
+    "jj show": allow
+    "jj show *": allow
+    "jj --no-pager diff*": allow
+    "jj --no-pager log*": allow
+    "jj --no-pager show*": allow
+    "jj root": allow
 
     "rm *": ask
     "mv *": ask
@@ -99,3 +122,4 @@ Return exactly:
 
 Never edit files.
 Never say the change is correct without evidence.
+VCS access is inspection-only: use Git or Jujutsu only for status, diff, log, show, and repository-root inspection. Never mutate local or remote VCS state, including by fetching, pulling, or pushing.

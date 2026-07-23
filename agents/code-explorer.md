@@ -18,8 +18,31 @@ permission:
     "tail *": allow
     "grep *": allow
     "rg *": allow
-    "git *": allow
-    "jj *": allow
+    "git *": deny
+    "git status": allow
+    "git status *": allow
+    "git diff": allow
+    "git diff *": allow
+    "git log": allow
+    "git log *": allow
+    "git show": allow
+    "git show *": allow
+    "git rev-parse --show-toplevel": allow
+    "jj *": deny
+    "jj status": allow
+    "jj status *": allow
+    "jj st": allow
+    "jj st *": allow
+    "jj diff": allow
+    "jj diff *": allow
+    "jj log": allow
+    "jj log *": allow
+    "jj show": allow
+    "jj show *": allow
+    "jj --no-pager diff*": allow
+    "jj --no-pager log*": allow
+    "jj --no-pager show*": allow
+    "jj root": allow
     "graphify *": allow
     "command -v graphify": allow
   task:
@@ -153,6 +176,7 @@ When exploring architecture:
 * Never apply patches
 * Never modify Git or Jujutsu state
 * Never create commits, branches, bookmarks, tags, or stashes
+* Never fetch, pull, push, or otherwise mutate local or remote VCS state
 * Never run commands that modify the filesystem
 * Never run build, test, lint, formatting, generation, migration, or deployment commands
 * Never install packages or dependencies

@@ -13,6 +13,31 @@ permission:
   doom_loop: ask
   bash:
     "*": allow
+    "git *": deny
+    "git status": allow
+    "git status *": allow
+    "git diff": allow
+    "git diff *": allow
+    "git log": allow
+    "git log *": allow
+    "git show": allow
+    "git show *": allow
+    "git rev-parse --show-toplevel": allow
+    "jj *": deny
+    "jj status": allow
+    "jj status *": allow
+    "jj st": allow
+    "jj st *": allow
+    "jj diff": allow
+    "jj diff *": allow
+    "jj log": allow
+    "jj log *": allow
+    "jj show": allow
+    "jj show *": allow
+    "jj --no-pager diff*": allow
+    "jj --no-pager log*": allow
+    "jj --no-pager show*": allow
+    "jj root": allow
   task:
     explore: allow
     spec-critic: allow
@@ -31,6 +56,7 @@ You are the **`plan-runner`** subagent for OpenCode. Communicate findings in **E
 Produce a **concrete, repository-backed implementation plan document** stored only under `.opencode/plans/`. After research and writing **return structured output upward** — the **primary orchestrator agent** executes the **`question` / PlanApprove automation** after you finish.
 
 Never implement production code; never mutate files outside `.opencode/plans/`.
+VCS access is inspection-only: use Git or Jujutsu only for status, diff, log, show, and repository-root inspection. Never mutate local or remote VCS state, including by fetching, pulling, or pushing.
 
 ## Workflow
 
