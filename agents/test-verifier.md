@@ -7,18 +7,14 @@ permission:
   doom_loop: ask
   edit: deny
   bash:
-    "*": ask
+    "*": deny
 
     "pwd": allow
     "ls *": allow
-    "find *": allow
     "cat *": allow
     "head *": allow
     "tail *": allow
-    "sed *": allow
-    "awk *": allow
     "grep *": allow
-    "rg *": allow
     "git *": deny
     "git status": allow
     "git status *": allow
@@ -30,24 +26,15 @@ permission:
     "git show *": allow
     "git rev-parse --show-toplevel": allow
     "jj *": deny
-    "jj status": allow
-    "jj status *": allow
-    "jj st": allow
-    "jj st *": allow
-    "jj diff": allow
-    "jj diff *": allow
-    "jj log": allow
-    "jj log *": allow
-    "jj show": allow
-    "jj show *": allow
-    "jj --no-pager diff*": allow
-    "jj --no-pager log*": allow
-    "jj --no-pager show*": allow
-    "jj root": allow
-
-    "rm *": ask
-    "mv *": ask
-    "cp *": ask
+    "jj --ignore-working-copy --no-pager status": allow
+    "jj --ignore-working-copy --no-pager status *": allow
+    "jj --ignore-working-copy --no-pager diff": allow
+    "jj --ignore-working-copy --no-pager diff *": allow
+    "jj --ignore-working-copy --no-pager log": allow
+    "jj --ignore-working-copy --no-pager log *": allow
+    "jj --ignore-working-copy --no-pager show": allow
+    "jj --ignore-working-copy --no-pager show *": allow
+    "jj --ignore-working-copy --no-pager root": allow
 
     "pytest": allow
     "pytest *": allow
@@ -93,6 +80,15 @@ permission:
 
     "go test": allow
     "go test *": allow
+    "*&&*": deny
+    "*||*": deny
+    "*;*": deny
+    "*|*": deny
+    "*>*": deny
+    "*<*": deny
+    "*$(*": deny
+    "*`*": deny
+
   webfetch: deny
   websearch: deny
 ---
@@ -122,4 +118,4 @@ Return exactly:
 
 Never edit files.
 Never say the change is correct without evidence.
-VCS access is inspection-only: use Git or Jujutsu only for status, diff, log, show, and repository-root inspection. Never mutate local or remote VCS state, including by fetching, pulling, or pushing.
+VCS access is inspection-only: use Git or Jujutsu only for status, diff, log, show, and repository-root inspection. Jujutsu commands must include both `--ignore-working-copy` and `--no-pager`. Never mutate local or remote VCS state, including by fetching, pulling, or pushing. Run tests directly; never invoke them through environment, command, shell, or executable-path wrappers.

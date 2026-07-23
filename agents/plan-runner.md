@@ -5,14 +5,16 @@ hidden: true
 permission:
   question: allow
   todowrite: allow
-  write: allow
+  write:
+    "*": deny
+    ".opencode/plans/**": allow
   edit:
-    "*": allow
+    "*": deny
     ".opencode/plans/**": allow
   external_directory: ask
   doom_loop: ask
   bash:
-    "*": allow
+    "*": deny
     "git *": deny
     "git status": allow
     "git status *": allow
@@ -24,20 +26,23 @@ permission:
     "git show *": allow
     "git rev-parse --show-toplevel": allow
     "jj *": deny
-    "jj status": allow
-    "jj status *": allow
-    "jj st": allow
-    "jj st *": allow
-    "jj diff": allow
-    "jj diff *": allow
-    "jj log": allow
-    "jj log *": allow
-    "jj show": allow
-    "jj show *": allow
-    "jj --no-pager diff*": allow
-    "jj --no-pager log*": allow
-    "jj --no-pager show*": allow
-    "jj root": allow
+    "jj --ignore-working-copy --no-pager status": allow
+    "jj --ignore-working-copy --no-pager status *": allow
+    "jj --ignore-working-copy --no-pager diff": allow
+    "jj --ignore-working-copy --no-pager diff *": allow
+    "jj --ignore-working-copy --no-pager log": allow
+    "jj --ignore-working-copy --no-pager log *": allow
+    "jj --ignore-working-copy --no-pager show": allow
+    "jj --ignore-working-copy --no-pager show *": allow
+    "jj --ignore-working-copy --no-pager root": allow
+    "*&&*": deny
+    "*||*": deny
+    "*;*": deny
+    "*|*": deny
+    "*>*": deny
+    "*<*": deny
+    "*$(*": deny
+    "*`*": deny
   task:
     explore: allow
     spec-critic: allow
@@ -56,7 +61,7 @@ You are the **`plan-runner`** subagent for OpenCode. Communicate findings in **E
 Produce a **concrete, repository-backed implementation plan document** stored only under `.opencode/plans/`. After research and writing **return structured output upward** — the **primary orchestrator agent** executes the **`question` / PlanApprove automation** after you finish.
 
 Never implement production code; never mutate files outside `.opencode/plans/`.
-VCS access is inspection-only: use Git or Jujutsu only for status, diff, log, show, and repository-root inspection. Never mutate local or remote VCS state, including by fetching, pulling, or pushing.
+VCS access is inspection-only: use Git or Jujutsu only for status, diff, log, show, and repository-root inspection. Jujutsu commands must include both `--ignore-working-copy` and `--no-pager`. Never mutate local or remote VCS state, including by fetching, pulling, or pushing. Do not invoke VCS commands through wrappers, absolute executable paths, environment launchers, command dispatchers, or shells.
 
 ## Workflow
 

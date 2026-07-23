@@ -12,12 +12,10 @@ permission:
     "*": deny
     "pwd": allow
     "ls *": allow
-    "find *": allow
     "cat *": allow
     "head *": allow
     "tail *": allow
     "grep *": allow
-    "rg *": allow
     "git *": deny
     "git status": allow
     "git status *": allow
@@ -29,22 +27,25 @@ permission:
     "git show *": allow
     "git rev-parse --show-toplevel": allow
     "jj *": deny
-    "jj status": allow
-    "jj status *": allow
-    "jj st": allow
-    "jj st *": allow
-    "jj diff": allow
-    "jj diff *": allow
-    "jj log": allow
-    "jj log *": allow
-    "jj show": allow
-    "jj show *": allow
-    "jj --no-pager diff*": allow
-    "jj --no-pager log*": allow
-    "jj --no-pager show*": allow
-    "jj root": allow
+    "jj --ignore-working-copy --no-pager status": allow
+    "jj --ignore-working-copy --no-pager status *": allow
+    "jj --ignore-working-copy --no-pager diff": allow
+    "jj --ignore-working-copy --no-pager diff *": allow
+    "jj --ignore-working-copy --no-pager log": allow
+    "jj --ignore-working-copy --no-pager log *": allow
+    "jj --ignore-working-copy --no-pager show": allow
+    "jj --ignore-working-copy --no-pager show *": allow
+    "jj --ignore-working-copy --no-pager root": allow
     "graphify *": allow
     "command -v graphify": allow
+    "*&&*": deny
+    "*||*": deny
+    "*;*": deny
+    "*|*": deny
+    "*>*": deny
+    "*<*": deny
+    "*$(*": deny
+    "*`*": deny
   task:
     explore: allow
     api-docs-researcher: allow
@@ -177,6 +178,7 @@ When exploring architecture:
 * Never modify Git or Jujutsu state
 * Never create commits, branches, bookmarks, tags, or stashes
 * Never fetch, pull, push, or otherwise mutate local or remote VCS state
+* Never run Jujutsu without both `--ignore-working-copy` and `--no-pager`
 * Never run commands that modify the filesystem
 * Never run build, test, lint, formatting, generation, migration, or deployment commands
 * Never install packages or dependencies
@@ -200,19 +202,17 @@ Allowed examples include:
 pwd
 ls
 ls -la
-find . -maxdepth 3 -type f
 cat path/to/file
 head -n 100 path/to/file
 tail -n 100 path/to/file
 grep -R "symbol" .
-rg "symbol"
 git status
 git log
 git show
 git diff
-jj status
-jj log
-jj diff
+jj --ignore-working-copy --no-pager status
+jj --ignore-working-copy --no-pager log
+jj --ignore-working-copy --no-pager diff
 graphify query "How does authentication work?"
 ```
 
