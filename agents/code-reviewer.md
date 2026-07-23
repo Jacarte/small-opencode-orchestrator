@@ -14,7 +14,10 @@ permission:
     "grep *": allow
     "git *": deny
     "jj *": deny
-    "graphify *": allow
+    "graphify *": deny
+    "graphify query *": allow
+    "graphify path *": allow
+    "graphify explain *": allow
     "*&&*": deny
     "*||*": deny
     "*;*": deny

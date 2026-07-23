@@ -1,5 +1,5 @@
 ---
-description: "Read-only investigation of hosting and service security posture: network exposure, TLS, authentication, exposed services, containers, relevant logs, and infrastructure-as-code in the workspace. Remote SSH, scp, rsync, and sftp require user approval for each invocation."
+description: "Read-only investigation of hosting and service security posture: network exposure, TLS, authentication, exposed services, containers, relevant logs, and infrastructure-as-code in the workspace. Remote shell and file-transfer commands are denied; request user-run diagnostics when needed."
 mode: subagent
 hidden: true
 permission:
@@ -36,7 +36,7 @@ permission:
     "mount *": deny
     "lsblk *": allow
 
-    "ss *": allow
+    "ss *": deny
     "ip *": deny
     "lsof *": allow
     "netstat *": allow
@@ -45,20 +45,15 @@ permission:
     "traceroute *": allow
 
     "sysctl -a": allow
-    "sysctl -a *": allow
-    "sysctl -n *": allow
 
     "systemctl status *": allow
     "systemctl list-*": allow
     "systemctl is-*": allow
     "systemctl show *": allow
 
-    "journalctl *": allow
-
     "nft list *": allow
-    "iptables -L*": allow
-    "iptables -S*": allow
-    "iptables-save*": allow
+    "iptables *": deny
+    "iptables-save*": deny
 
     "docker ps*": allow
     "docker inspect *": allow
@@ -74,22 +69,12 @@ permission:
     "podman network ls*": allow
     "podman network inspect *": allow
 
-    "openssl s_client *": allow
-    "openssl x509 *": allow
     "openssl version*": allow
 
     "dig *": allow
     "host *": allow
     "nslookup *": allow
-    "resolvectl *": allow
-
-    "curl *": ask
-    "wget *": ask
-
-    "ssh *": ask
-    "scp *": ask
-    "rsync *": ask
-    "sftp *": ask
+    "resolvectl query *": allow
     "*&&*": deny
     "*||*": deny
     "*;*": deny
@@ -115,6 +100,28 @@ permission:
     "ip neigh show": allow
     "ip -brief addr show": allow
     "ip -brief link show": allow
+    "ss": allow
+    "ss -a": allow
+    "ss -l": allow
+    "ss -s": allow
+    "ss -t": allow
+    "ss -u": allow
+    "ss -x": allow
+    "ss -tunlp": allow
+    "journalctl": allow
+    "journalctl -b": allow
+    "journalctl -k": allow
+    "journalctl --list-boots": allow
+    "journalctl --disk-usage": allow
+    "journalctl --verify": allow
+    "iptables -L": allow
+    "iptables -L -n": allow
+    "iptables -L -nv": allow
+    "iptables -S": allow
+    "iptables-save": allow
+    "resolvectl status": allow
+    "resolvectl statistics": allow
+    "resolvectl show-cache": allow
     "git status": allow
     "git diff": allow
     "git log": allow
@@ -141,11 +148,7 @@ Adapt depth to the prompt: exposed ports and listeners, TLS configuration and ce
 
 ## Remote access
 
-When investigation requires a remote host, use **non-interactive** SSH with explicit read-only remote commands, for example:
-
-`ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new user@host 'command'`
-
-SSH, scp, rsync, and sftp invocations require **user approval** in this agent’s permission model. Prefer the smallest read-only command set. If a needed diagnostic is not allowed by permissions, say what command you would run and ask the user to run it or approve.
+Remote shell and file-transfer commands are denied because command patterns cannot guarantee that a remote operation is non-mutating. If remote evidence is required, provide the smallest read-only diagnostic command and ask the user to run it and return sanitized output.
 
 ## Evidence
 
