@@ -89,11 +89,16 @@ When **routing agent** was **`orchestrator`** and `plan_post_approval_handoff_ag
 2. **Open** (read) the approved `.opencode/plans/*.md`; treat as source of truth.
 3. **`todowrite`**: Capture every actionable step / slice with sane statuses (`pending`/`in_progress`/`completed`/etc.).
 4. **Implementation slices:** For each ready slice run **Task** → **`code-executor`** with:
-   - One or two sentences of goal
-   - **Exact scope**: allowed paths/modules, forbidden areas if any
-   - **Acceptance**: tests or checks that satisfy _this slice only_
-     Prefer **serialized** executions unless slices are unmistakably independent.
-   - If it is a `jujutsu` repo, use the `jujutsu` skill instead of git. If the jj id is meant for stacked, watch out not diverging the branch. For example use `jj new -A @` to create a new empty commit on top of the current one.
+   - **Goal**: one or two sentences describing the slice outcome.
+   - **Allowed paths**: the exact files or modules the executor owns.
+   - **Forbidden paths/areas**: everything the executor must not modify or absorb.
+   - **Slice acceptance checks**: tests or checks that satisfy this slice only.
+   - **Intended commit message** for local finalization.
+   - **Expected stack position**: the current revision and parent when known, or another unambiguous stack position.
+   - **Dependency order** relative to other slices.
+   - **Local commit boundary: `yes` or `no`**.
+
+   The orchestrator alone chooses each boundary's content and stack order. `Local commit boundary: yes` authorizes the executor to finalize the validated slice locally without another approval. A `no`, missing, or ambiguous marker forbids finalization. Serialize dependent stack slices. In a Jujutsu repository, delegate all mechanics to the existing `jujutsu` skill; do not embed a command recipe in the Task prompt.
 5. **Verification:** When code changed meaningfully invoke **Task** → **`test-verifier`** (scoped commands acceptable).
 6. **Security-sensitive areas** (`auth`, file handling shells, tenant boundaries…): optionally **Task** → **`security-reviewer`** focused on risky diffs/paths before final sign-off.
 7. **Slop cleaner:** Remove AI slop using the `ai-slop-cleaner` skill (if available) or **Task** → **`code-executor`** with a narrow prompt to remove obvious AI slop (e.g., `# TODO: implement`, `pass`, `return None`, etc.) from the diff.
