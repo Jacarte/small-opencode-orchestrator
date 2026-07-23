@@ -27,17 +27,17 @@ permission:
     "jj *": deny
 
     "uname *": allow
-    "hostname *": allow
+    "hostname *": deny
     "uptime": allow
     "id": allow
     "whoami": allow
     "df *": allow
     "free *": allow
-    "mount *": allow
+    "mount *": deny
     "lsblk *": allow
 
     "ss *": allow
-    "ip *": allow
+    "ip *": deny
     "lsof *": allow
     "netstat *": allow
     "ping *": allow
@@ -98,6 +98,23 @@ permission:
     "*<*": deny
     "*$(*": deny
     "*`*": deny
+    "hostname": allow
+    "hostname -f": allow
+    "hostname -s": allow
+    "hostname -d": allow
+    "hostname -i": allow
+    "hostname -I": allow
+    "mount": allow
+    "mount -l": allow
+    "mount --show-labels": allow
+    "ip addr show": allow
+    "ip address show": allow
+    "ip link show": allow
+    "ip route show": allow
+    "ip rule show": allow
+    "ip neigh show": allow
+    "ip -brief addr show": allow
+    "ip -brief link show": allow
     "git status": allow
     "git diff": allow
     "git log": allow

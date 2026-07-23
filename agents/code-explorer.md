@@ -18,7 +18,10 @@ permission:
     "grep *": allow
     "git *": deny
     "jj *": deny
-    "graphify *": allow
+    "graphify *": deny
+    "graphify query *": allow
+    "graphify path *": allow
+    "graphify explain *": allow
     "command -v graphify": allow
     "*&&*": deny
     "*||*": deny
@@ -62,7 +65,7 @@ For every codebase exploration request:
 
 1. Load the `graphify` skill before performing codebase discovery.
 
-2. Run:
+2. Run a read-only Graphify query:
 
    ```sh
    graphify query "<the user's actual question>"

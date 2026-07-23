@@ -3,8 +3,8 @@ description: Subagent that drafts evidence-based implementation plans under .ope
 mode: subagent
 hidden: true
 permission:
-  question: allow
-  todowrite: allow
+  question: deny
+  todowrite: deny
   write:
     "*": deny
     ".opencode/plans/**": allow
