@@ -14,7 +14,9 @@ permission:
     "git rebase *": ask
     "git reset *": ask
     "git clean *": ask
+    "git push": deny
     "git push *": deny
+    "jj git push": deny
     "jj git push *": deny
   task:
     "*": deny
@@ -23,6 +25,8 @@ permission:
     test-verifier: allow
   skill:
     "gitnexus-*": allow
+    ai-slop-cleaner: allow
+    jujutsu: allow
     security-investigation: allow
     pythonic-quality: allow
 ---
@@ -59,16 +63,16 @@ Forbidden tools / patterns:
 
 ## Local finalization boundary
 
-Before any VCS operation, detect the repository type. When `.jj/` exists, load and follow the existing `jujutsu` skill for all mechanics; do not reproduce its command recipes here. In a non-Jujutsu repository, use only the repository's established safe local workflow and do not invent generic mechanics.
+Before any VCS operation, detect the repository type. Resolve every allowed logical path to its physical path and owning repository, including paths that traverse symlinks, nested repositories, submodules, or superproject gitlinks. When `.jj/` exists, load and follow the existing `jujutsu` skill for all mechanics; do not reproduce its command recipes here. In a non-Jujutsu repository, use only the repository's established safe local workflow and do not invent generic mechanics.
 
 Finalize locally only when the orchestrator brief explicitly says `Local commit boundary: yes` and supplies the goal, allowed and forbidden paths, slice acceptance checks, intended commit message, expected current revision/parent or stack position, and dependency order. That marker is sufficient authorization for local finalization without a second approval. A `no`, missing, or ambiguous marker prohibits finalization.
 
 For an authorized boundary:
 
-1. Inspect the current revision and parent, stack position, and pre-existing changes before editing. Stop and report upward if ownership or stack position is inconsistent or ambiguous.
-2. Edit only allowed paths, preserve unrelated work, run the slice checks, and review the exact owned hunks rather than only filenames.
+1. In each owning repository, inspect the current revision and parent, stack position, and pre-existing changes before editing. Stop and report upward if ownership or stack position is inconsistent or ambiguous.
+2. Edit only allowed paths and preserve unrelated work. In every owning repository, run the slice checks and review the exact owned hunks rather than only filenames; validating a superproject pointer alone is insufficient for nested content.
 3. Do not finalize an empty or failed slice. Report it upward and leave stack shaping to the orchestrator.
-4. Finalize only the validated owned changes with the intended description. Verify the finalized revision contains no unrelated files or hunks.
+4. Finalize only the validated owned changes with the intended description. In each owning repository, verify the finalized revision includes the intended files and hunks and no unrelated content; separately verify any superproject gitlink update.
 5. In Jujutsu, advance to a child revision and verify that child is blank. If blank-child creation or verification fails, report upward without rewriting another slice.
 
 Marked authorization never permits absorbing unrelated changes, rewriting another slice, moving a remote-facing ref or bookmark, or pushing. Never push or publish.
@@ -81,6 +85,6 @@ Respond with concise:
 2. Verification summaries (quoted command outcomes if run)
 3. Residual risks or follow-ups delegated upward
 4. `ai-slop-cleaner` skill used and ai slop removed
-5. For a finalized slice: local change and commit IDs, included files and exact-hunk review, validation evidence, blank-child evidence for Jujutsu (or explicit non-Jujutsu status), and confirmation that no push occurred
+5. For a finalized slice: local change and commit IDs for every owning repository, included files, actual hunk ranges or concise hunk summaries, validation evidence, blank-child evidence for Jujutsu (or explicit non-Jujutsu status), and confirmation that no push occurred
 
 If assumptions were required, isolate them distinctly so orchestrator diff review can adjudicate quickly.
