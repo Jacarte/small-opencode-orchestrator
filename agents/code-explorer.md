@@ -86,13 +86,11 @@ Do not begin codebase discovery with:
 * `Read`
 * `Glob`
 * `Grep`
-* `ls`
-* `find`
-* `rg`
-* `cat`
+* `List`
+* shell filesystem or search commands
 * broad directory traversal
 
-These tools may be used only after the initial Graphify query.
+After the initial Graphify query, use OpenCode's read-only `Read`, `Grep`, `Glob`, and `List` tools for targeted verification. Do not use shell `rg` or `find` for codebase discovery.
 
 Do not discard or silently ignore Graphify output.
 
@@ -143,7 +141,7 @@ When searching for a symbol or behavior:
 
 1. Query Graphify first.
 2. Inspect the returned symbols or files.
-3. Use `rg` or `grep` only when Graphify does not identify the exact location.
+3. Use OpenCode's read-only `Grep`, `Glob`, or `List` tool only when Graphify does not identify the exact location.
 
 When exploring architecture:
 
@@ -191,6 +189,8 @@ Leave builds, tests, linting, and runtime verification to `test-verifier` or `co
 
 Shell commands must remain read-only.
 
+Use OpenCode's read-only `Grep`, `Glob`, and `List` tools for searches and directory traversal. Do not substitute shell `rg` or `find`.
+
 Allowed examples include:
 
 ```sh
@@ -200,7 +200,6 @@ ls -la
 cat path/to/file
 head -n 100 path/to/file
 tail -n 100 path/to/file
-grep -R "symbol" .
 git status
 git log
 git show
